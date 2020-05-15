@@ -1,0 +1,142 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projekat.Helpers"     
+        xmlns:src="clr-namespace:Projekat"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Projekat.UnosFaktura"
+        mc:Ignorable="d"
+        Title="{Binding Text, ElementName=textBlock}" Height="750" Width="800" WindowStartupLocation="CenterScreen"  ResizeMode="NoResize" Closing="Window_Closing">
+
+    <StackPanel>
+        <Grid Background="Silver" Height="40" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="26*"/>
+                <ColumnDefinition Width="371*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="textBlock" Text="Nova faktura" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Medium" Grid.Column="1" Margin="286.364,7,338,6"/>
+        </Grid>
+        <Grid  Height="470" Width="794" Margin="0,0,-0.4,0" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56*"/>
+                <RowDefinition Height="56*"/>
+
+                <RowDefinition Height="56*"/>
+                <RowDefinition Height="55*"/>
+                <RowDefinition Height="56*"/>
+
+                <RowDefinition Height="56*"/>
+                <RowDefinition Height="73*"/>
+                <RowDefinition Height="39*"/>
+
+
+
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="115*"/>
+                <ColumnDefinition Width="143*"/>
+                <ColumnDefinition Width="89*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="99*"/>
+                <ColumnDefinition Width="222*"/>
+                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="65*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Broj fakture" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,21,0,20.2" Height="18" Width="72"/>
+            <TextBox x:Name="tbBrojFakture" Background="WhiteSmoke" IsReadOnly="True" Grid.Row="0" Margin="115,15,0.4,15.2" VerticalContentAlignment="Center" Grid.ColumnSpan="2" />
+
+            <TextBlock Text="Klijent"  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,19.8,0,19.4" Height="20" Width="42"/>
+            <TextBox x:Name="tbNazivKlijenta" IsReadOnly="True" Background="WhiteSmoke" Text="Izaberi klijenta" Grid.Row="1" HorizontalAlignment="Left" Margin="115,17.8,0,17.4" Width="95" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
+            <Button x:Name="btnListaKlijenata" Grid.Row="1" HorizontalContentAlignment="Stretch" Grid.Column="1" Height="24" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="94.8,17.8,24.4,17.4" RenderTransformOrigin="2.083,0.458">
+                <Image x:Name="Klijenti" Source="/Projekat;component/Resources/strelica.png" Height="24" MouseDown="Klijenti_MouseDown" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0">
+
+                    <Image.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="IzaberiKlijenta" Header="Izaberi" Click="IzaberiKlijenta_Click"/>
+                        </ContextMenu>
+                    </Image.ContextMenu>
+
+                </Image>
+            </Button>
+            <ListBox x:Name="ListBoxKlijenti" Panel.ZIndex="1"  Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="6" Margin="115,37.8,99,35.6" SelectionChanged="ListBoxKlijenti_SelectionChanged" Visibility="Hidden" Background="White"/>
+
+            <Button x:Name="btnUnosNovogKlijenta" Content="+" Grid.Row="1" Grid.Column="1" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="BtnUnosNovogKlijenta_Click" Margin="0,17.8,0.4,17.4"/>
+
+
+            <TextBlock Text="Artikli" Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="18,0,0,9.6" Height="19" Width="36"/>
+
+            <DataGrid x:Name="DataGridArtikli" IsReadOnly="True" Grid.Row="3" AutoGenerateColumns="False"  Grid.ColumnSpan="8" Grid.RowSpan="5" HorizontalAlignment="Center" Margin="18,0.4,17.6,40.4" Width="758" MouseDoubleClick="DataGridArtikli_MouseDoubleClick">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="DataGridArtikliItemEdit" Header="Edit" Click="DataGridArtikliItemEdit_Click"/>
+                        <MenuItem x:Name="DataGridArtikliItemRemove" Header="Remove" Click="DataGridArtikliItemRemove_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn  Width="100"  Header="Broj" Binding="{Binding Broj}" />
+                    <DataGridTextColumn Width="100" Header="Naziv" Binding="{Binding Naziv}"/>
+                    <DataGridTextColumn Width="100" Header="Kolicina" Binding="{Binding Kolicina}"/>
+
+                    <DataGridTextColumn Binding="{Binding Cena, Mode=TwoWay}"  Width="100" Header="Cena" DisplayIndex="2"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="btnDodajArtikal" Content="Dodaj artikal" Grid.Column="7" Grid.Row="7"  VerticalAlignment="Top" Margin="18.2,10.4,6.6,0" Height="25" Click="BtnDodajArtikal_Click" />
+
+            <TextBlock Text="Rok za uplatu"  Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0.2,20,0,19.2" Height="20" Width="88"/>
+            <DatePicker x:Name="dpRokUplate" Grid.Row="0" Grid.Column="5"  DisplayDateStart="{x:Static local:DateTimeHelper.Tomorrow}" VerticalContentAlignment="Center" SelectedDateFormat="Long" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,18,4.6,17.2" Width="217" Height="24" FontSize="14"/>
+
+            <TextBlock Text="Zakonski okvir"  Grid.Column="4" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0.2,19.8,0,19.4" Height="20" Width="88"/>
+            <TextBox x:Name="tbNazivZakonskogOkvira" IsReadOnly="True" Background="WhiteSmoke" Text="Izaberi okvir" Grid.Row="1" Grid.Column="5" Margin="0,17.8,21.6,17.4" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+            <Button x:Name="btnZakonskiOkvir" Grid.Row="1" Grid.Column="5" Height="24" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,17.8,4.6,17.4" RenderTransformOrigin="0.5,0.5" Width="24" >
+                <Image x:Name="ZakonskiOkvir" Source="/Projekat;component/Resources/strelica.png" Height="24" MouseDown="ZakonskiOkvir_MouseDown" RenderTransformOrigin="0.5,0.5">
+
+                    <Image.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="MenuItemZakonskiOkvir" Header="Izaberi" Click="MenuItemZakonskiOkvir_Click"/>
+                        </ContextMenu>
+                    </Image.ContextMenu>
+
+                </Image>
+
+            </Button>
+            <ListBox x:Name="ListBoxZakonskiOkvir" Panel.ZIndex="2" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="6" Margin="0,37.8,16.6,35.6" SelectionChanged="ListBoxZakonskiOkvir_SelectionChanged" Visibility="Hidden" Background="White" BorderBrush="#FFABADB3"/>
+
+            <TextBlock Text="Ukupan iznos sa PDV-om" Grid.Row="7" VerticalAlignment="Bottom" Margin="18,0,103.4,5.4" Grid.ColumnSpan="2" Height="20"/>
+            <TextBox Name="tbUkupanIznos" Width="150" Text="0 dinara." Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="7" Height="20" Margin="44.8,0,0,5.4" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+        </Grid>
+        <Grid Height="141" HorizontalAlignment="Left" Width="794" Margin="0 20 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Napomena" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="18 0 0 10" />
+            <TextBox x:Name="tbNapomena" Grid.Row="1" Grid.RowSpan="3" Margin="18,0,18,10" ></TextBox>
+
+
+        </Grid>
+
+
+        <Grid Margin="0 10 0 0" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="132*"/>
+                <ColumnDefinition Width="132*"/>
+                <ColumnDefinition Width="132*"/>
+                <ColumnDefinition Width="133*"/>
+                <ColumnDefinition Width="132"/>
+                <ColumnDefinition Width="133*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnPotvrdi"  Height="25" Content="Potvrdi" Grid.Column="4" Margin="52,0,0,0" Click="BtnPotvrdi_Click" />
+            <Button x:Name="btnStampaj" Height="25" Content="Stampaj" Grid.Column="0" Margin="18 0" Click="BtnStampaj_Click"/>
+            <Button x:Name="btnOdustani"  Height="25" Content="Odustani" Grid.Column="5" Margin="43,0,18,0" Click="BtnOdustani_Click" />
+        </Grid>
+    </StackPanel>
+</Window>
